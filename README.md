@@ -45,4 +45,5 @@ Please download the pre-trained models from the following links and save them to
 
 ## Acknowledgment
 
-This repo is based on [Fixed-Point-GAN](## [mahfuzmohammad/Fixed-Point-GAN: Official implementation of Fixed-Point GAN - ICCV 2019 (github.com)](https://github.com/mahfuzmohammad/Fixed-Point-GAN)) 、 [LAE]([NiCE-X/Adversarial-visual-reconstruction: code for the paper "Defeating DeepFakes via Adversarial Visual Reconstruction" (github.com)](https://github.com/NiCE-X/Adversarial-visual-reconstruction)) and [TAFIM](##[shivangi-aneja/TAFIM: [ECCV 2022\] TAFIM: Targeted Adversarial Attacks against Facial Image Manipulation (github.com)](https://github.com/shivangi-aneja/TAFIM)), thanks for their great work.
+This repo is based on [Fixed-Point-GAN](https://github.com/mahfuzmohammad/Fixed-Point-GAN) 、 [Adversarial-visual-reconstruction](https://github.com/NiCE-X/Adversarial-visual-reconstruction) and [TAFIM](https://github.com/shivangi-aneja/TAFIM), thanks for their great work.
+
