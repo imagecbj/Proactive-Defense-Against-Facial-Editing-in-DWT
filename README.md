@@ -12,7 +12,7 @@ Follow [CelebAMask-HQ](https://github.com/switchablenorms/CelebAMask-HQ) to down
 
 ## Pre-trained Models
 
-Please download the pre-trained models from the following links and save them to `models/pretrain/`
+Please download the pre-trained models from the following links and save them to `checkpoints/`
 
 | SM                                                           | SA                                                           | PG                                                           |
 | :----------------------------------------------------------- | :----------------------------------------------------------- | :----------------------------------------------------------- |
