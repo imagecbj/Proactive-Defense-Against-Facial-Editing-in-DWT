@@ -43,7 +43,13 @@ There are some test images on  `test/test_data/`
 ```
   python test_dataset.py
 ```
+If you want to test the generalization ability of our method, you can download the pre-trained weights of StarGAN and AttentionGAN from [here](https://drive.google.com/drive/folders/1QEAE6DgA72VElUJPN360kUfvosV7srgc?usp=drive_link) and save them to  `checkpoints/`, and then run the following command to test
 
+```
+python test_generalizability.py --model_choice stargan
+```
+
+You can change the model_choice parameter with 'attentiongan' to test another gan.
 ## Acknowledgment
 
 This repo is based on [Fixed-Point-GAN](https://github.com/mahfuzmohammad/Fixed-Point-GAN) 、 [Adversarial-visual-reconstruction](https://github.com/NiCE-X/Adversarial-visual-reconstruction) and [TAFIM](https://github.com/shivangi-aneja/TAFIM), thanks for their great work.
