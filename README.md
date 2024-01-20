@@ -29,7 +29,8 @@ Please download the pre-trained models from the following links and save them to
 
 ## Test
 
-<p align="justify"> Run the following command to test one image, there are some test images in `test/test_data/`
+There are some test images on  `test/test_data/`
+<p align="justify"> Run the following command to test one image
 
 
 ```python
