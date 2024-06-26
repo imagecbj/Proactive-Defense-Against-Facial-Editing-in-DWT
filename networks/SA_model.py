@@ -7,9 +7,9 @@ import cv2
 import numpy as np
 
 class SA(nn.Module):
-    def __init__(self, opts):
+    def __init__(self):
         super(SA, self).__init__()
-        self.path = opts.mask_model_path
+        self.path = config.mask_model_path
         self.SA = SODModel().to(config.device)
         self.load_weights()
         self.normalize = transforms.Normalize(mean=[0.485, 0.456, 0.406],
@@ -64,4 +64,20 @@ class SA(nn.Module):
         pred_masks = torch.nn.functional.interpolate(pred_masks, size=(128, 128), mode='bilinear',
                                                      align_corners=False)
         return pred_masks
+    def compute_mask_dct(self, img):
+        x_ori = (img[0] / 2 + 0.5).mul(255).add_(0.5).clamp_(0, 255).permute(1, 2, 0).to('cpu',
+                                                                                         torch.uint8).numpy()
+        # compute saliency mask
+        img_np = self.pad_resize_image(x_ori, None, 256)
+        img_tor = img_np.astype(np.float32)
+        img_tor = img_tor / 255.0
+        img_tor = np.transpose(img_tor, axes=(2, 0, 1))
+        img_tor = torch.from_numpy(img_tor).float()
+        img_tor = self.normalize(img_tor)
 
+        img_tor = img_tor.unsqueeze(0)
+        img_tor = img_tor.to(config.device)
+        pred_masks, _ = self.SA(img_tor)
+        # pred_masks = torch.nn.functional.interpolate(pred_masks, size=(128, 128), mode='bilinear',
+        #                                              align_corners=False)
+        return pred_masks

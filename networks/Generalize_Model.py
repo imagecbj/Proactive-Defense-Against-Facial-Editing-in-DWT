@@ -11,6 +11,7 @@ class Models(nn.Module):
         self.conv_dim = config.conv_dim
         self.c_dim = config.c_dim
         self.repeat_num = config.repeat_num
+        self.mid_layer = config.mid_layer
         self.selected_attrs = opts.selected_attrs
         self.model_name = opts.model_choice
         if self.model_name == 'stargan':
@@ -56,4 +57,27 @@ class Models(nn.Module):
                     gen,_,_ = self.model(x, c_trg)
                 outs.append(gen.data)
         return outs
+    def compute_loss2(self, x_adv, x_real, c_trg_list):
+        loss_out = 0.0
+        criterion = torch.nn.MSELoss()
 
+        feature_ori = torch.zeros((1, 256, 64, 64)).to(config.device)
+        feature_adv = torch.zeros((1, 256, 64, 64)).to(config.device)
+        for i, c_trg in enumerate(c_trg_list):
+            ori_out, ori_mids, _ = self.model(x_real, c_trg)
+            adv_out, adv_mids, _ = self.model(x_adv, c_trg)
+
+            ori_mid = ori_mids[self.mid_layer]
+            adv_mid = adv_mids[self.mid_layer]
+
+            feature_ori += ori_mid
+            feature_adv += adv_mid
+
+            loss_out += (-criterion(ori_out, adv_out))
+
+        feature_ori /= self.c_dim
+        feature_adv /= self.c_dim
+
+        loss_mid = -criterion(feature_ori, feature_adv)
+        loss = loss_mid + loss_out
+        return loss
