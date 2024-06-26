@@ -12,7 +12,7 @@
 
 ## 预训练模型
 
-点击[Ensemble Models and Pre-trained models]([checkpoints (1) - Google 云端硬盘](https://drive.google.com/drive/folders/10WEoO6C6KkcFqtVb_iCciDEUqjLPJJEJ))下载5个属性编辑模型(StarGAN、AttentionGAN、FGAN、HiSD、AttGAN)的预训练权重以及显著性检测模型、本文提供的一个预训练好的权重. 下载到 `./checkpoints/`文件夹中. 注意： `PG.pth`是本文提供的预训练好的扰动生成器，可以直接用其在测试集上进行测试.
+点击([Ensemble Models and Pre-trained models](https://drive.google.com/drive/folders/10WEoO6C6KkcFqtVb_iCciDEUqjLPJJEJ))下载5个属性编辑模型(StarGAN、AttentionGAN、FGAN、HiSD、AttGAN)的预训练权重以及显著性检测模型、本文提供的一个预训练好的权重. 下载到 `./checkpoints/`文件夹中. 注意： `PG.pth`是本文提供的预训练好的扰动生成器，可以直接用其在测试集上进行测试.
 
 ```xml
 checkpoints/
