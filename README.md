@@ -1,56 +1,54 @@
-## Proactive Defense Against Deep Facial Attribute Editing via Non-Targeted Adversarial Perturbation Attack in the DWT domain
+# 抵抗第二次人脸属性编辑的不可感知主动防御算法
 
 ![Python 3.](https://img.shields.io/badge/python-3.8-green.svg?style=plastic)
 
 ![PyTorch 1.10.0](https://img.shields.io/badge/pytorch-1.10.0-green.svg?style=plastic)
 
-> **Abstract:** *Proactive defense against face forgery disrupts the generative ability of forgery models by adding imperceptible perturbations to the faces to be protected. The recent latent space algorithm, i.e., Latent Adversarial Exploration (LAE), achieves better perturbation imperceptibility than the commonly-used image space algorithms but has two main drawbacks: (a) the forgery models can successfully edit the nullifying outputs after defense again; (b) the semantic information of defensed images is prone to be altered. Therefore, this paper proposes a proactive defense algorithm against deep facial attribute editing via non-targeted adversarial perturbation attack in the DWT domain. To address the former drawback, the nullifying attack is replaced by the non-targeted attack. Regarding the latter one, the perturbations are performed in the DWT domain. Furthermore, to speed user-concerned inference time, the generator-based approach is considered for generating frequency domain perturbations instead of the iterative approaches; to improve the visual quality of the defensed images, the perturbations are added in chrominance channels of YCbCr color space because the Human Visual System (HVS) is more sensitive to the perturbations in luminance channel. Numerous experimental results indicate that the proposed algorithm outperforms some existing algorithms, effectively disrupting the facial forgery system while achieving perturbation imperceptibility.*
+> **摘要:** *人脸伪造的主动防御技术通过向待保护人脸添加难以察觉的扰动来破坏伪造模型的生成能力. 最近的潜在对抗性探索(Latent Adversarial Exploration, LAE)算法比常用的像素空间类算法实现了更好的扰动不可感知性, 但仍有两个不足: (a) 其防御人脸的语义信息容易被改变，这是一些人脸所有者无法接受的; (b) 其成功防御后的无效输出容易被伪造模型成功编辑. 因此，本文提出了一种抵抗第二次人脸属性编辑的不可感知主动防御算法. 针对前一缺点，替换LAE中非可逆的编码器-生成器结构为正交的离散小波变换(Discrete Wavelet Transform, DWT)，并在DWT域施加扰动. 关于后者, 替代LAE的无效攻击为无目标攻击. 此外, 为了提高防御人脸的视觉质量，利用人眼视觉系统对亮度通道扰动更为敏感的特点, 在YCbCr色彩空间的色度通道中加入扰动; 为了提升防御人脸的通用性, 采用权重动态更新的集成策略进行训练. 实验结果表明, 提出算法优于现有集成和非集成算法, 更好的平衡了扰动不可感知性和防御通用性.*
 
-## Datasets
+## 数据集
 
-Follow [CelebAMask-HQ](https://github.com/switchablenorms/CelebAMask-HQ) to download the dataset and specify the path in main.py.
+点击[CelebAMask-HQ](https://github.com/switchablenorms/CelebAMask-HQ) 下载数据集并在`main_ensemble.py`修改数据集路径.
 
-## Pre-trained Models
+## 预训练模型
 
-Please download the pre-trained models from the following links and save them to `checkpoints/`
+点击[Ensemble Models and Pre-trained models]([checkpoints (1) - Google 云端硬盘](https://drive.google.com/drive/folders/10WEoO6C6KkcFqtVb_iCciDEUqjLPJJEJ))下载5个属性编辑模型(StarGAN、AttentionGAN、FGAN、HiSD、AttGAN)的预训练权重以及显著性检测模型、本文提供的一个预训练好的权重. 下载到 `./checkpoints/`文件夹中. 注意： `PG.pth`是本文提供的预训练好的扰动生成器，可以直接用其在测试集上进行测试.
 
-| SM                                                           | SA                                                           | PG                                                           |
-| :----------------------------------------------------------- | :----------------------------------------------------------- | :----------------------------------------------------------- |
-| Pretrained [FGAN](https://drive.google.com/file/d/1PQ5yZZ3lnyfN_gtShcdHdcDjCoHmwLXd/view?usp=sharing) Model. | [Saliency Detection Model](https://drive.google.com/file/d/1nwVloVzRLOGs7QL8QbBK0HA8ur9wPCTg/view?usp=sharing) | [Perturbation Generator](https://drive.google.com/file/d/17Lwzd_0NMW8_uE3ofJ53vC_d6-5Ac_9k/view?usp=sharing) |
+```xml
+checkpoints/
+├── attentiongan/
+│   └── 200000-G.ckpt
+├── AttGAN/
+|   └── weights.199.pth
+├── FAN/
+|   └── best-model_epoch-204_mae-0.0505_loss-0.1370.pth
+├── FGAN/
+|   └── 200000-G.ckpt
+├── HiSD/
+|   └── gen_00600000.pt
+├── stargan/
+|   └── 200000-G.ckpt
+└── PG.pth
+```
 
-## Train
+## 训练
 
-<p align="justify"> Simply run the following command
-
+执行下列命令进行集成训练
 
 ```python
-  python main.py
+  python main_ensemble.py
 ```
 
-## Test
+## 测试
 
-There are some test images on  `test/test_data/`
-<p align="justify"> Run the following command to test one image
-
+执行下列命令在测试集上进行测试，注意：`--model_choice`可以选择的参数如下：`fgan | attgan | hisd | stargan | attentiongan`
 
 ```python
-  python test_one_img.py
+  python test_dataset_ensemble.py --model_choice fgan
 ```
 
-<p align="justify"> Run the following command to test on test dataset
 
 
-```
-  python test_dataset.py
-```
-If you want to test the generalization ability of our method, you can download the pre-trained weights of StarGAN and AttentionGAN from [here](https://drive.google.com/drive/folders/1QEAE6DgA72VElUJPN360kUfvosV7srgc?usp=drive_link) and save them to  `checkpoints/`, and then run the following command to test
+## 致谢
 
-```
-python test_generalizability.py --model_choice stargan
-```
-
-You can change the model_choice parameter with 'attentiongan' to test another gan.
-## Acknowledgment
-
-This repo is based on [Fixed-Point-GAN](https://github.com/mahfuzmohammad/Fixed-Point-GAN) 、 [Adversarial-visual-reconstruction](https://github.com/NiCE-X/Adversarial-visual-reconstruction) and [TAFIM](https://github.com/shivangi-aneja/TAFIM), thanks for their great work.
-
+本工作基于 [Fixed-Point-GAN](https://github.com/mahfuzmohammad/Fixed-Point-GAN) 、 [Adversarial-visual-reconstruction](https://github.com/NiCE-X/Adversarial-visual-reconstruction) 和 [TAFIM](https://github.com/shivangi-aneja/TAFIM).
